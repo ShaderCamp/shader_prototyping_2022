@@ -12,7 +12,7 @@ uniform float       u_time;
 #include "lygia/math/saturate.glsl"
 #include "lygia/space/ratio.glsl"
 #include "lygia/draw/circle.glsl"
-#include "lygia/color/palette/hue.glsl"
+#include "lygia/color/palette/chroma.glsl"
 
 void main(void) {
     vec4 color = vec4(vec3(0.0), 1.0);
@@ -21,13 +21,20 @@ void main(void) {
     st = ratio(st, u_resolution);
 
 #if defined(DOUBLE_BUFFER_0)
-    color.rgb = texture2D(u_doubleBuffer0, st).rgb * 0.98;
-    color.rgb += circle(st - u_mouse*pixel + 0.5, 0.1);
+
+    vec2 pos =  u_mouse*pixel;
+    pos.x = cos(u_time * 1.5);
+    pos.y = sin(u_time * 1.7);
+    pos *= 0.5;
+    pos = pos * 0.5 + 0.5;
+
+    color.rgb = texture2D(u_doubleBuffer0, st).rgb * 0.99;
+    color.rgb += circle(st - pos + 0.5, 0.1);
     color.rgb = saturate(color.rgb);
     
 #else
     float value = texture2D(u_doubleBuffer0, st).r;
-    color.rgb = hue(value) * value;
+    color.rgb += chroma(value);
 
 #endif
 

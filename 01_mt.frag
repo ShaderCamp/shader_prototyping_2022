@@ -22,9 +22,9 @@ void main(void) {
 
     // Diffuse shading from directional light
     vec3 n = normalize(v_normal);
-    vec3 l = normalize(u_light);
+    vec3 l = normalize(u_light - v_position.xyz);
     vec3 v = normalize(u_camera - v_position.xyz);
-    color.rgb += (dot(n, l) + 1.0 ) * 0.5;
+    color.rgb += dot(n, l) * 0.5 + 0.5;
 
     gl_FragColor = color;
 }

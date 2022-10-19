@@ -27,12 +27,6 @@ void main(void) {
     vec2 pixel = 1.0/u_resolution;
     vec2 st = gl_FragCoord.xy * pixel;
 
-#ifdef BACKGROUND
-    st = ratio(st, u_resolution);
-    color += (1.0 - distance(st, vec2(0.5))) * 0.5;
-
-#else
-
     // Floor Pattern
     #if defined(FLOOR) && defined(MODEL_VERTEX_TEXCOORD)
     
@@ -59,8 +53,6 @@ void main(void) {
 
     // Shadow
     color.rgb *= sampleShadowPCF(u_lightShadowMap, vec2(LIGHT_SHADOWMAP_SIZE), v_lightCoord.xy, v_lightCoord.z - 0.005) * 0.8 + 0.2;
-
-#endif
 
     gl_FragColor = color;
 }

@@ -20,10 +20,10 @@ void main (void) {
     vec2 st = gl_FragCoord.xy * pixel;
 
 #if defined(BUFFER_0)
-    color = gaussianBlur(u_tex0, st, vec2(3.0, 0.0) * pixel);
+    color = gaussianBlur(u_tex0, st, vec2(3.0, 0.0) * pixel, 12);
 
 #else 
-    color = gaussianBlur(u_buffer0, st, vec2(0.0, 3.0) * pixel);
+    color = gaussianBlur(u_buffer0, st, vec2(0.0, 3.0) * pixel, 12);
 
 #endif
 
