@@ -18,7 +18,7 @@ varying vec2        v_texcoord;
 #endif
 
 #define CHROMAAB_PCT 2.5
-#define CHROMAAB_SAMPLER_FNC(POS_UV) SAMPLER_FNC(tex, clamp(POS_UV, vec2(0.001), vec2(0.999))
+#define CHROMAAB_SAMPLER_FNC(POS_UV) SAMPLER_FNC(tex, clamp(POS_UV, vec2(0.001), vec2(0.999)))
 #include "lygia/distort/chromaAB.glsl"
 #define BARREL_SAMPLER_FNC(POS_UV) chromaAB(tex, POS_UV)
 #include "lygia/distort/barrel.glsl"
@@ -28,14 +28,11 @@ void main(void) {
     vec2 pixel = 1.0/u_resolution;
     vec2 st = gl_FragCoord.xy * pixel;
 
-    float dist = distance(st, vec2(0.5));
 #if defined(BACKGROUND)
-    // color.r = step(0.5, fract( (st.x + st.y) * 10.0 + u_time));
-    color.rgb += 1.0-dist; 
-
+    color.rgb += step(0.5, fract( (st.x + st.y) * 10.0 + u_time));
+    
 #elif defined(POSTPROCESSING)
     color.rgb = barrel(u_scene, st, pixel * -20.0);
-
 
 #else
 
