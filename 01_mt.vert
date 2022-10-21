@@ -8,7 +8,6 @@ uniform mat4    u_projectionMatrix;
 uniform mat4    u_modelMatrix;
 uniform mat4    u_viewMatrix;
 uniform mat3    u_normalMatrix;
-uniform float   u_time;
 
 attribute vec4  a_position;
 varying vec4    v_position;
@@ -39,33 +38,17 @@ uniform mat4    u_lightMatrix;
 varying vec4    v_lightCoord;
 #endif
 
-#include "lygia/animation/easing.glsl"
-#include "lygia/space/rotateY.glsl"
-
 void main(void) {
     
     v_position = a_position;
-
-#ifdef MODEL_VERTEX_NORMAL
-    v_normal = a_normal;
-#endif
-
-    #ifdef MODEL_NAME_TOP 
-    float pct = sin(u_time) * 0.5 + 0.5;
-    v_position.y += elasticIn(pct) * 100.;
-
-    #else
-
-    v_position = rotateY(v_position, u_time);
-    v_normal = rotateY(v_normal, u_time);
-
-    #endif
     
 #ifdef MODEL_VERTEX_COLOR
     v_color = a_color;
 #endif
     
-
+#ifdef MODEL_VERTEX_NORMAL
+    v_normal = a_normal;
+#endif
     
 #ifdef MODEL_VERTEX_TEXCOORD
     v_texcoord = a_texcoord;

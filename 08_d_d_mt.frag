@@ -29,7 +29,7 @@ void main(void) {
     vec2 pixel = 1.0/ u_resolution;
     vec2 st = gl_FragCoord.xy * pixel;
     vec2 uv = v_texcoord;
-
+    
     vec4  buff0 = texture2D(u_doubleBuffer0, uv);
     vec4  buff1 = texture2D(u_doubleBuffer1, uv);
     vec3  pos = buff0.xyz;// * 2.0 - 1.0;

@@ -1,31 +1,34 @@
+
 #ifdef GL_ES
 precision mediump float;
 #endif
 
+uniform sampler2D   u_buffer0;
+
 uniform sampler2D   u_tex0;
 uniform vec2        u_tex0Resolution;
 
-uniform sampler2D   u_buffer0;
-
-uniform vec2        u_mouse;
 uniform vec2        u_resolution;
+uniform vec2        u_mouse;
 uniform float       u_time;
 
-#define GAUSSIANBLUR_SAMPLER_FNC(UV) texture2D(tex, clamp(UV, vec2(0.001), vec2(0.999))) 
+varying vec2        v_texcoord;
+
 #include "lygia/filter/gaussianBlur.glsl"
 
 void main (void) {
-    vec4 color = vec4(0.0, 0.0, 0.0, 1.0);
-    vec2 pixel = 1.0/u_resolution;
+    vec3 color = vec3(0.0);
+    vec2 pixel = 1.0/u_resolution.xy;
     vec2 st = gl_FragCoord.xy * pixel;
+    vec2 uv = v_texcoord;
 
 #if defined(BUFFER_0)
-    color = gaussianBlur(u_tex0, st, vec2(3.0, 0.0) * pixel, 12);
+    color = gaussianBlur(u_tex0, st, pixel * vec2(1.0, 0.0) * 3.0, 16).rgb;
 
-#else 
-    color = gaussianBlur(u_buffer0, st, vec2(0.0, 3.0) * pixel, 12);
-
+#else
+    color = gaussianBlur(u_buffer0, st, pixel * vec2(0.0, 1.0) * 3.0, 16).rgb;
+    
 #endif
 
-    gl_FragColor = color;
+    gl_FragColor = vec4(color, 1.0);
 }
