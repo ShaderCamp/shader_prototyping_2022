@@ -20,7 +20,7 @@
 	glslViewer 05_mt_fl.frag assets/skull.obj -l
 
 06_buffer:
-	glslViewer 06_b_mt_pp.frag assets/skull.obj -l
+	glslViewer 06_b_mt.vert 06_b_mt.frag assets/skull.obj -l
 
 07_doubleBuffer:
 	glslViewer 07_d_mt.frag assets/skull.obj -l
