@@ -4,6 +4,7 @@ precision mediump float;
 
 uniform sampler2D   u_scene;
 uniform sampler2D   u_sceneDepth;
+uniform sampler2D   u_sceneNormal;
 
 uniform sampler2D   u_doubleBuffer0;
 
@@ -46,12 +47,13 @@ uniform mat4        u_viewMatrix;
 uniform mat4        u_projectionMatrix;
 #include "lygia/lighting/volumetricLightScattering.glsl"
 
+#include "lygia/color/luma.glsl"
 #include "lygia/math/mirror.glsl"
 
 float focus(vec2 st) {
     float depth = texture2D(u_sceneDepth, st).x;
-    depth = linearizeDepth(depth, u_cameraNearClip, u_cameraFarClip) * 250.;
-    return 1.0 - smoothstep(0., .9, depth);
+    depth = linearizeDepth(depth, u_cameraNearClip, u_cameraFarClip) * 500. - 1.5;
+    return 1.0 - depth;
 }
 
 void main(void) {
@@ -59,22 +61,23 @@ void main(void) {
     vec2 pixel = 1.0/u_resolution;
     vec2 st = gl_FragCoord.xy * pixel;
 
+    vec3 normal = texture2D(u_sceneNormal, st).xyz;
+
     float pct = 1.0;
-    // pct = mirror(u_time * 0.5);
+    pct = mirror(u_time * 0.5);
 
 #if defined(DOUBLE_BUFFER_0)
-    vec2 st1 = st;
-    st1 += pixel * vec2(.5, -1.0) * 5.0;
-    st1 += pixel * fbm( vec3(st1 * 5., u_time) ).xy * 5.0;
+    vec2 st1 = st - normal.xy * pixel * 2.0;
+    st1 += pixel * vec2(0.0, -1.0) * 2.0;
+    st1 += pixel * fbm( vec3(st1 * 5., u_time) ).xy * 2.0;
 
     color = texture2D(u_doubleBuffer0, clamp(st1, vec2(0.001), vec2(0.999)) ) * 0.99;
-    color.r = texture2D(u_doubleBuffer0, clamp(st1 - pixel, vec2(0.001), vec2(0.999)) ).r * 0.9;
-    color.b = texture2D(u_doubleBuffer0, clamp(st1 + pixel, vec2(0.001), vec2(0.999)) ).b * 0.99;
+    color.r = texture2D(u_doubleBuffer0, clamp(st1 - pixel, vec2(0.001), vec2(0.999)) ).r * 0.95;
+    color.b = texture2D(u_doubleBuffer0, clamp(st1 + pixel, vec2(0.001), vec2(0.999)) ).b * 0.96;
 
     float clip = focus(st);
-
     vec4 scene = texture2D(u_scene, st);
-    color = mix(color, scene, scene.a * min(clip, pct));
+    color = mix(color, scene, luma(scene) * clip);
 
     // color.rgb = scene.rgb * chroma(clip);
     // color += digits(st - 0.02, focus(vec2(0.5)));

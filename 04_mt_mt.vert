@@ -39,27 +39,30 @@ uniform mat4    u_lightMatrix;
 varying vec4    v_lightCoord;
 #endif
 
+#include "lygia/math/const.glsl"
+#include "lygia/math/mirror.glsl"
 #include "lygia/animation/easing.glsl"
+#include "lygia/space/rotateX.glsl"
 #include "lygia/space/rotateY.glsl"
 
 void main(void) {
-    
     v_position = a_position;
 
 #ifdef MODEL_VERTEX_NORMAL
     v_normal = a_normal;
 #endif
 
-    #ifdef MODEL_NAME_TOP 
-    float pct = sin(u_time) * 0.5 + 0.5;
-    v_position.y += elasticIn(pct) * 100.;
-
-    #else
+    #ifdef MODEL_NAME_BOTTOM
+    float pct = mirror(u_time * 0.5);
+    pct = elasticInOut(pct);
+    v_position = rotateX(v_position, pct * -PI * 0.1);
+    v_normal = rotateX(v_normal, pct *  -PI * 0.1);
+    v_position.y -= (pct) * .5;
+    #endif
 
     v_position = rotateY(v_position, u_time);
     v_normal = rotateY(v_normal, u_time);
 
-    #endif
     
 #ifdef MODEL_VERTEX_COLOR
     v_color = a_color;
