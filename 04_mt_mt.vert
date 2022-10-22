@@ -60,8 +60,8 @@ void main(void) {
     v_position.y -= (pct) * .5;
     #endif
 
-    v_position = rotateY(v_position, u_time);
-    v_normal = rotateY(v_normal, u_time);
+    v_position = rotateY(v_position, sin(u_time * 0.5));
+    v_normal = rotateY(v_normal, sin(u_time * 0.5));
 
     
 #ifdef MODEL_VERTEX_COLOR
