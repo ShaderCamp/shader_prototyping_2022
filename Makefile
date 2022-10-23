@@ -13,11 +13,14 @@
 03_postprocessing:
 	glslViewer 03_bg_mt_pp.frag assets/skull.obj -l
 
-04_multiple_materials:
-	glslViewer 04_mt_mt.vert 04_mt_mt.frag assets/skull.obj -l
+04_floor:
+	glslViewer 04_mt_fl.frag assets/skull.obj -l
 
-05_floor:
-	glslViewer 05_mt_fl.frag assets/skull.obj -l
+04_pbr:
+	glslViewer 04_mt.frag assets/skull.obj -l
+
+05_multiple_materials:
+	glslViewer 05_mt_mt.vert 05_mt_mt.frag assets/skull.obj -l
 
 06_buffer:
 	glslViewer 06_b_mt.vert 06_b_mt.frag assets/skull.obj -l
