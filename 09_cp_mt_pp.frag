@@ -23,6 +23,9 @@ varying vec2        v_texcoord;
 
 #include "lygia/color/space/linear2gamma.glsl"
 
+#define CAMERA_POSITION u_camera
+#define POSITION        v_position
+
 #include "lygia/lighting/atmosphere.glsl"
 #define ENVMAP_FNC(NORM, ROUGHNESS, METALLIC) atmosphere(NORM, normalize(u_light))
 

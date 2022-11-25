@@ -36,7 +36,7 @@ uniform mat4        u_projectionMatrix;
 #include "lygia/lighting/volumetricLightScattering.glsl"
 
 #define GAUSSIANBLUR_2D
-#define GAUSSIANBLUR_SAMPLER_FNC(UV) texture2D(tex, clamp(UV, 0.001, .999))
+#define GAUSSIANBLUR_SAMPLER_FNC(TEX, UV) texture2D(TEX, clamp(UV, 0.001, .999))
 #include "lygia/filter/gaussianBlur.glsl"
 
 void main(void) {

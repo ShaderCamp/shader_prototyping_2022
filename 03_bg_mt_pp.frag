@@ -19,10 +19,10 @@ varying vec2        v_texcoord;
 
 #define CHROMAAB_PCT 10.5
 #define CHROMAAB_CENTER_BUFFER .15
-#define CHROMAAB_SAMPLER_FNC(POS_UV) SAMPLER_FNC(tex, clamp(POS_UV, vec2(0.001), vec2(0.999)))
+#define CHROMAAB_SAMPLER_FNC(TEX, UV) SAMPLER_FNC(TEX, clamp(UV, vec2(0.001), vec2(0.999)))
 #include "lygia/distort/chromaAB.glsl"
 
-#define BARREL_SAMPLER_FNC(POS_UV) chromaAB(tex, POS_UV);
+#define BARREL_SAMPLER_FNC(TEX, UV) chromaAB(TEX, UV);
 #include "lygia/distort/barrel.glsl"
 
 void main(void) {
