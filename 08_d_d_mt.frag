@@ -16,7 +16,7 @@ uniform int         u_frame;
 varying vec4        v_color;
 varying vec2        v_texcoord;
 
-#include "lygia/math/decimation.glsl"
+#include "lygia/math/decimate.glsl"
 #include "lygia/generative/srandom.glsl"
 #include "lygia/generative/snoise.glsl"
 #include "lygia/generative/curl.glsl"

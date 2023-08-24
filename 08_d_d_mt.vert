@@ -22,14 +22,14 @@ varying vec4        v_position;
 varying vec4        v_color;
 varying vec2        v_texcoord;
 
-#include "lygia/math/decimation.glsl"
+#include "lygia/math/decimate.glsl"
 
 void main(void) {
     
     vec2 uv         = a_position.xy;
     vec2 buffRes    = vec2(512.0);
     vec2 buffPixel  = 1.0/buffRes;
-    uv              = decimation(uv, buffRes) + 0.5 * buffPixel;
+    uv              = decimate(uv, buffRes) + 0.5 * buffPixel;
     v_texcoord      = uv;
 
     v_position      = a_position;    
