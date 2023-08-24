@@ -24,8 +24,8 @@ varying vec3        v_normal;
 varying vec2        v_texcoord;
 #endif
 
-#include "lygia/math/decimation.glsl"
-#include "lygia/color/palette/chroma.glsl"
+#include "lygia/math/decimate.glsl"
+#include "lygia/color/palette/hue.glsl"
 #include "lygia/draw/digits.glsl"
 #define ARROWS_STYLE_LINE
 #include "lygia/draw/arrows.glsl"
@@ -50,12 +50,6 @@ uniform mat4        u_projectionMatrix;
 #include "lygia/color/luma.glsl"
 #include "lygia/math/mirror.glsl"
 
-float focus(vec2 st) {
-    float depth = texture2D(u_sceneDepth, st).x;
-    depth = linearizeDepth(depth, u_cameraNearClip, u_cameraFarClip) * 500. - 1.5;
-    return 1.0 - depth;
-}
-
 void main(void) {
     vec4 color = vec4(0.0, 0.0, 0.0, 1.0);
     vec2 pixel = 1.0/u_resolution;
@@ -75,12 +69,8 @@ void main(void) {
     color.r = texture2D(u_doubleBuffer0, clamp(st1 - pixel, vec2(0.001), vec2(0.999)) ).r * 0.95;
     color.b = texture2D(u_doubleBuffer0, clamp(st1 + pixel, vec2(0.001), vec2(0.999)) ).b * 0.96;
 
-    float clip = focus(st);
     vec4 scene = texture2D(u_scene, st);
-    color = mix(color, scene, luma(scene) * clip);
-
-    // color.rgb = scene.rgb * chroma(clip);
-    // color += digits(st - 0.02, focus(vec2(0.5)));
+    color = mix(color, scene, luma(scene));
 
 #elif defined(POSTPROCESSING)
     color.xyz = texture2D(u_doubleBuffer0, st).xyz;
