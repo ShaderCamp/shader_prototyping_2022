@@ -38,7 +38,7 @@ void main(void) {
     vec2 pixel = 1.0/u_resolution;
     vec2 st = gl_FragCoord.xy * pixel;
 
-#if defined(CONVOLUTION_PYRAMID_0)
+#if defined(PYRAMID_0)
     color = texture2D(u_scene, st);
 
 #elif defined(POSTPROCESSING)
