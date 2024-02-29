@@ -51,3 +51,36 @@ We will iterate on it adding and modifying different render passes each one with
 * **Gn** G Buffer Normal (3D>2D): when uniform sampler2D `u_sceneNormal` is present creates a g buffer of the 3D scene normals in screenspace
 * **Gp** G Buffer Position (3D>2D): when uniform sampler2D `u_sceneNPosition` is present creates a g buffer of the 3D scene position in screenspace
 
+## Examples
+
+```bash
+make 00_platform
+
+make 00_billboard
+
+make 01_material
+
+make 02_background
+
+make 03_postprocessing
+
+make 04_floor
+
+make 04_pbr
+
+make 05_multiple_materials
+
+make 06_buffer
+
+make 06a_scene_depth
+
+make 06a_scene_normal
+
+make 06a_buffer_postprocessing
+
+make 07_doubleBuffer
+
+make 08_doubleDoubleBuffer
+
+make 09_convolutionPyramid
+```

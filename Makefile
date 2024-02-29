@@ -25,7 +25,13 @@
 06_buffer:
 	glslViewer 06_b_mt.vert 06_b_mt.frag assets/skull.obj -l
 
-06_buffer_postprocessing:
+06a_scene_depth:
+	glslViewer 06_s_depth.frag assets/skull.obj -l
+
+06a_scene_normal:
+	glslViewer 06_s_normal.frag assets/skull.obj -l
+
+06a_buffer_postprocessing:
 	glslViewer 06_b_mt_pp.frag assets/skull.obj -l
 
 07_doubleBuffer:
